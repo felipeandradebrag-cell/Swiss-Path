@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1cb0f6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SwissPath">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>SwissPath</title>
+<style>
+  :root { --blue:#1cb0f6; --green:#58cc02; --red:#ff4b4b; --bg:#f7f7f7; --card:#fff; --text:#3c3c3c; --muted:#777; --line:#e5e5e5; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--text); padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+  header { position:sticky; top:0; background:#fff; border-bottom:2px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:10px 14px; z-index:5; }
+  .langs button { border:2px solid var(--line); background:#fff; border-radius:12px; padding:6px 10px; font-weight:700; cursor:pointer; margin-left:4px; }
+  .langs button.on { border-color:var(--blue); color:var(--blue); }
+  .stats { font-weight:700; font-size:14px; }
+  main { max-width:520px; margin:0 auto; padding:16px; padding-bottom:90px; }
+  .unit { background:var(--blue); color:#fff; border-radius:14px; padding:12px 16px; margin:18px 0 10px; }
+  .unit small { opacity:.9; }
+  .node { display:flex; justify-content:center; margin:10px 0; }
+  .node button { width:72px; height:72px; border-radius:50%; border:none; font-size:26px; color:#fff; background:var(--green); box-shadow:0 6px 0 #46a302; cursor:pointer; }
+  .node button:disabled { background:#cfcfcf; box-shadow:0 6px 0 #b5b5b5; cursor:not-allowed; }
+  .node button.done { background:#ffc800; box-shadow:0 6px 0 #d9a900; }
+  .card { background:var(--card); border-radius:16px; padding:18px; box-shadow:0 2px 0 var(--line); margin-bottom:14px; }
+  .btn { display:block; width:100%; padding:14px; border:none; border-radius:14px; background:var(--green); color:#fff; font-weight:800; font-size:16px; box-shadow:0 4px 0 #46a302; cursor:pointer; margin-top:12px; }
+  .btn.alt { background:#fff; color:var(--blue); box-shadow:0 4px 0 var(--line); border:2px solid var(--line); }
+  .opt { display:block; width:100%; text-align:left; padding:12px; margin-top:8px; border:2px solid var(--line); border-radius:12px; background:#fff; font-size:16px; cursor:pointer; }
+  .opt.ok { border-color:var(--green); background:#e8f9d6; }
+  .opt.bad { border-color:var(--red); background:#ffe3e3; }
+  input[type=text] { width:100%; padding:12px; font-size:16px; border:2px solid var(--line); border-radius:12px; margin-top:8px; }
+  .feedback { margin-top:10px; padding:10px; border-radius:12px; font-weight:600; }
+  .feedback.ok { background:#e8f9d6; color:#2f7a00; }
+  .feedback.bad { background:#ffe3e3; color:#b00020; }
+  .pt { color:var(--muted); font-size:14px; }
+  .big { font-size:22px; font-weight:800; margin:8px 0; }
+  .alex { background:#fff7e0; border-left:5px solid #ffc800; }
+  nav.bottom { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--line); display:flex; justify-content:space-around; padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px)); }
+  nav.bottom button { background:none; border:none; font-size:14px; color:var(--muted); font-weight:700; cursor:pointer; }
+  nav.bottom button.on { color:var(--blue); }
+</style>
+</head>
+<body>
+<header>
+  <div class="langs">
+    <button id="l-de">🇩🇪 Alemão</button>
+    <button id="l-en">🇬🇧 Inglês</button>
+  </div>
+  <div class="stats"><span id="hearts">❤️ 5</span> &nbsp; <span id="streak">🔥 0</span></div>
+</header>
+<main id="app"></main>
+<nav class="bottom">
+  <button id="t-trail" class="on">⏩ Trilha</button>
+  <button id="t-alex">💬 Alex</button>
+  <button id="t-review">🔀 Revisão</button>
+  <button id="t-stats">📊 Progresso</button>
+</nav>
+
+<script>
+/* ============ CONTEÚDO (exemplo inicial; expandir depois) ============ */
+const COURSE = {
+  de: { name: 'Alemão (Hochdeutsch)', units: [
+    { title: 'Unidade 1 · Begrüßung', lessons: [
+      { title: 'Oi e tchau', items: [
+        { t:'choice', q:'Como se diz "Olá" em alemão?', o:['Hallo','Danke','Bitte'], a:0, pt:'Hallo (ha-lo)' },
+        { t:'shadow', phrase:'Guten Morgen', pt:'gu-ten MOR-gen · Bom dia' },
+        { t:'type', q:'Escreva em alemão: "Tchau"', a:['tschüss','tschüs','auf wiedersehen'], pt:'Tschüss (tchüss)' },
+        { t:'choice', q:'"Danke" significa:', o:['Por favor','Obrigado','Desculpe'], a:1, pt:'Danke = obrigado' },
+        { t:'shadow', phrase:'Wie geht es Ihnen?', pt:'vi gueht es IH-nen · Como o senhor está?' }
+      ]},
+      { title: 'Apresentar-se', items: [
+        { t:'choice', q:'"Ich heiße Ana" significa:', o:['Eu moro em Ana','Meu nome é Ana','Eu sou de Ana'], a:1, pt:'heißen = chamar-se' },
+        { t:'type', q:'Escreva: "Eu me chamo João" (ich heiße)', a:['ich heiße joão','ich heisse joão','ich heiße joao'], pt:'Ich heiße João' },
+        { t:'shadow', phrase:'Ich komme aus Brasilien', pt:'ich KOM-me aus bra-ZIL-i-en · Eu venho do Brasil' }
+      ]}
+    ]},
+    { title: 'Unidade 2 · Zahlen e compras', lessons: [
+      { title: 'Números 1 a 10', items: [
+        { t:'choice', q:'"Drei" é o número:', o:['2','3','4'], a:1, pt:'drei = 3' },
+        { t:'shadow', phrase:'Ich möchte zwei Brötchen', pt:'ich MÖH-te tsvai BRÖT-chen · Quero dois pãezinhos' }
+      ]}
+    ]}
+  ]},
+  en: { name: 'Inglês', units: [
+    { title: 'Unidade 1 · Everyday English', lessons: [
+      { title: 'Expressões do dia a dia', items: [
+        { t:'choice', q:'"What\'s up?" em português é:', o:['O que está acontecendo?','Onde você está?','Quanto custa?'], a:0, pt:'Expressão informal de cumprimento' },
+        { t:'shadow', phrase:'I\'m good, thanks. How about you?', pt:'Aim gud, thengs. Rau abaut iu?' },
+        { t:'type', q:'Complete: "I ___ to work every day." (ir)', a:['go','walk'], pt:'I go to work (eu vou trabalhar)' }
+      ]}
+    ]}
+  ]}
+};
+
+COURSE.de.units[0].lvl='A1'; COURSE.de.units[1].lvl='A1'; COURSE.en.units[0].lvl='A1';
+const LV=['A1','A2','B1','B2','C1','C2'];
+const OUTLINE = {
+  de:{A1:['Begrüßung','Zahlen e compras','Família','Rotina'],A2:['Passado (Perfekt)','Saúde e médico','Moradia e aluguel','Trabalho'],B1:['Opiniões e planos','Konjunktiv II','Burocracia suíça','Notícias'],B2:['Passiva e orações relativas','Debates','Textos formais','Mundo do trabalho'],C1:['Nuances e idiomatismos','Argumentação','Mídia e literatura'],C2:['Precisão e estilo','Registros e dialetos','Domínio total']},
+  en:{A1:['Everyday English','Numbers and shopping','Family','Routine'],A2:['Past simple','Health','Housing','Work'],B1:['Opinions and plans','Conditionals','Travel and services','News'],B2:['Passive and relative clauses','Debates','Formal writing','Workplace'],C1:['Idioms and nuance','Argumentation','Media and literature'],C2:['Precision and style','Registers','Mastery']}
+};
+const P=(lvl,q,o,a)=>({t:'choice',lvl,q,o,a,pt:o[a]});
+const PLACE = {
+  de:[P('A1','Responda: "Wie heißt du?"',['Ich bin 20 Jahre alt','Ich heiße Ana','Ich wohne in Wien'],1),P('A1','"Danke schön" significa:',['Muito obrigado','Bom dia','Até logo'],0),
+      P('A2','Qual frase está correta?',['Ich habe gestern Pizza gegessen','Ich bin gestern Pizza gegessen','Ich habe gestern Pizza essen'],0),P('A2','Qual artigo? ___ Tisch (a mesa)',['die','der','das'],1),
+      P('B1','Ich bleibe zu Hause, ___ es regnet.',['weil','aber','oder'],0),P('B1','Qual frase usa Konjunktiv II corretamente?',['Wenn ich Zeit hätte, würde ich reisen','Wenn ich Zeit habe, würde ich reisen','Wenn ich Zeit hätte, ich reise'],0),
+      P('B2','Der Mann, ___ ich geholfen habe, ist Arzt.',['dem','den','der'],0),P('B2','Qual é o passivo correto?',['Das Haus wird gebaut','Das Haus wird bauen','Das Haus hat gebaut werden'],0),
+      P('C1','"etwas in Kauf nehmen" significa:',['aceitar algo como consequência','comprar algo','vender algo'],0),P('C1','Er sagte, er ___ krank.',['sei','ist','wäre sein'],0),
+      P('C2','Qual palavra significa "ambiguidade"?',['Mehrdeutigkeit','Gelassenheit','Selbstverständlichkeit'],0),P('C2','"sich mit etwas abfinden" significa:',['conformar-se com algo','esquivar-se de algo','apropriar-se de algo'],0)],
+  en:[P('A1','Qual é correto?',['I am from Brazil','I from Brazil am','Me Brazil'],0),P('A1','"Thank you" significa:',['Obrigado','Desculpe','Tchau'],0),
+      P('A2','She ___ to work every day.',['go','goes','going'],1),P('A2','Yesterday I ___ a movie.',['watch','watched','watching'],1),
+      P('B1','If it rains, we ___ at home.',['will stay','would stayed','stay will'],0),P('B1','I have lived here ___ 2020.',['for','since','during'],1),
+      P('B2','If I ___ more time, I would study more.',['have','had','would have'],1),P('B2','The report ___ by the team before the deadline.',['was finished','finished','has finish'],0),
+      P('C1','Qual frase está correta?',['Hardly had I arrived when it started to rain','Hardly I had arrived when it started to rain','Hardly had I arrive when it started to rain'],0),P('C1','"to cut corners" significa:',['fazer algo mal feito para economizar','virar a esquina','cortar papel'],0),
+      P('C2','"ubiquitous" significa:',['onipresente','raro','antigo'],0),P('C2','"to take something with a grain of salt" significa:',['duvidar um pouco de algo','temperar algo','levar algo a sério'],0)]
+};
+
+/* ============ ESTADO (salvo no aparelho com localStorage) ============ */
+const KEY = 'swisspath-v1';
+let S = JSON.parse(localStorage.getItem(KEY) || 'null') || { lang:'de', done:{}, hearts:5, streak:0, lastDay:'', pos:{} };
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); paintHeader(); }
+
+function paintHeader(){
+  document.getElementById('l-de').classList.toggle('on', S.lang==='de');
+  document.getElementById('l-en').classList.toggle('on', S.lang==='en');
+  document.getElementById('hearts').textContent = '❤️ ' + S.hearts;
+  document.getElementById('streak').textContent = '🔥 ' + S.streak;
+}
+
+function touchStreak(){
+  const today = new Date().toDateString();
+  if (S.lastDay !== today){
+    const yest = new Date(Date.now()-86400000).toDateString();
+    S.streak = (S.lastDay === yest) ? S.streak + 1 : (S.lastDay ? 1 : 1);
+    S.lastDay = today;
+  }
+}
+
+/* ============ TELAS ============ */
+const app = document.getElementById('app');
+let tab = 'trail';
+
+function showTrail(){
+  const c = COURSE[S.lang];
+  let html = `<div class="card"><b>${c.name}</b><div class="pt">Complete cada lição para liberar a próxima. Você retoma de onde parou.</div></div>`;
+  c.units.forEach((u, ui) => {
+    html += `<div class="unit"><b>${u.title}</b></div>`;
+    u.lessons.forEach((l, li) => {
+      const key = `${S.lang}-${ui}-${li}`;
+      const prevKey = li>0 ? `${S.lang}-${ui}-${li-1}` : (ui>0 ? `${S.lang}-${ui-1}-${c.units[ui-1].lessons.length-1}` : null);
+      const unlocked = !prevKey || S.done[prevKey];
+      const cls = S.done[key] ? 'done' : '';
+      html += `<div class="node"><button class="${cls}" ${unlocked?'':'disabled'} onclick="startLesson(${ui},${li})">${S.done[key]?'✓':(unlocked?'★':'🔒')}</button></div>
+               <div class="pt" style="text-align:center">${l.title}</div>`;
+    });
+  });
+  app.innerHTML = html;
+}
+
+let run = null; // lição em andamento
+function startLesson(ui, li){
+  if (S.hearts <= 0){ app.innerHTML = `<div class="card"><b>Sem vidas por agora</b><p class="pt">Use o modo Revisão para recuperar. Vidas voltam aos poucos.</p></div>`; return; }
+  const lesson = COURSE[S.lang].units[ui].lessons[li];
+  run = { ui, li, lesson, i:0, errors:0, key:`${S.lang}-${ui}-${li}` };
+  renderItem();
+}
+
+function renderItem(){
+  const it = run.lesson.items[run.i];
+  if (!it){ finishLesson(); return; }
+  const bar = `<div class="pt">Passo ${run.i+1} de ${run.lesson.items.length}</div>`;
+  if (it.t === 'choice'){
+    app.innerHTML = `<div class="card">${bar}<div class="big">${it.q}</div>
+      ${it.o.map((o,k)=>`<button class="opt" onclick="answerChoice(${k})">${o}</button>`).join('')}
+      <div id="fb"></div></div>`;
+  } else if (it.t === 'type'){
+    app.innerHTML = `<div class="card">${bar}<div class="big">${it.q}</div>
+      <input type="text" id="inp" autocomplete="off" autocapitalize="none">
+      <button class="btn" onclick="answerType()">Verificar</button><div id="fb"></div></div>`;
+    setTimeout(()=>document.getElementById('inp').focus(), 50);
+  } else if (it.t === 'shadow'){
+    app.innerHTML = `<div class="card">${bar}<div class="pt">Ouça e repita em voz alta (shadowing)</div>
+      <div class="big">${it.phrase}</div><div class="pt">${it.pt}</div>
+      <button class="btn alt" onclick="speak('${it.phrase.replace(/'/g,"\\'")}', '${S.lang==='de'?'de-DE':'en-US'}')">🔊 Ouvir</button>
+      <button class="btn" onclick="nextItem()">Já repeti, continuar</button></div>`;
+    speak(it.phrase, S.lang==='de'?'de-DE':'en-US');
+  }
+}
+
+function answerChoice(k){
+  const it = run.lesson.items[run.i];
+  const ok = k === it.a;
+  const btns = document.querySelectorAll('.opt');
+  btns.forEach((b,idx)=>{ if(idx===it.a) b.classList.add('ok'); else if(idx===k) b.classList.add('bad'); });
+  feedback(ok, it.pt);
+}
+
+function answerType(){
+  const it = run.lesson.items[run.i];
+  const v = document.getElementById('inp').value.trim().toLowerCase();
+  const ok = it.a.some(x => x.toLowerCase() === v);
+  feedback(ok, it.pt);
+}
+
+function feedback(ok, pt){
+  if (!ok){ run.errors++; S.hearts = Math.max(0, S.hearts-1); logError(); }
+  document.getElementById('fb').innerHTML = `<div class="feedback ${ok?'ok':'bad'}">${ok?'Muito bem! ':'Quase. Resposta: '}${pt}</div>
+    <button class="btn" onclick="nextItem()">Continuar</button>`;
+  save();
+}
+
+// Banco de erros: guarda o passo errado para revisar depois
+function logError(){
+  S.errors = S.errors || [];
+  const it = run.lesson.items[run.i];
+  S.errors.push({ lang:S.lang, q: it.q || it.phrase, pt: it.pt, when: Date.now() });
+  S.errors = S.errors.slice(-100);
+}
+
+function nextItem(){ run.i++; save(); renderItem(); }
+
+function finishLesson(){
+  S.done[run.key] = true;
+  touchStreak();
+  save();
+  app.innerHTML = `<div class="card"><div class="big">Lição concluída! 🎉</div>
+    <p>Erros nesta lição: <b>${run.errors}</b>. Os erros entraram na revisão.</p>
+    <button class="btn" onclick="tab='trail';render()">Voltar à trilha</button></div>`;
+}
+
+function showAlex(){
+  app.innerHTML = `<div class="card alex"><b>Alex (protótipo)</b>
+    <p class="pt">A conversa com IA ainda não está ligada. Ela precisa de um servidor próprio, para que a chave de acesso não fique exposta na página. Esta tela mostra o formato que vamos usar.</p>
+    <p>Como se diz "Eu gostaria de um café, por favor" em ${S.lang==='de'?'alemão':'inglês'}?</p>
+    <p class="pt">Dica: ${S.lang==='de'?'Ich hätte gern einen Kaffee, bitte.':'I would like a coffee, please.'}</p></div>`;
+}
+
+function showReview(){
+  const errs = (S.errors||[]).filter(e=>e.lang===S.lang).slice(-10).reverse();
+  if (!errs.length){ app.innerHTML = `<div class="card"><b>Banco de erros vazio</b><p class="pt">Os erros das lições aparecem aqui para revisão.</p></div>`; return; }
+  app.innerHTML = `<div class="card"><b>Revise seus erros</b>` + errs.map(e=>`<div class="opt" style="cursor:default"><b>${e.q}</b><div class="pt">${e.pt}</div></div>`).join('') + `</div>`;
+}
+
+function showStats(){
+  const c = COURSE[S.lang];
+  const total = c.units.reduce((a,u)=>a+u.lessons.length,0);
+  const doneN = Object.keys(S.done).filter(k=>k.startsWith(S.lang+'-')).length;
+  app.innerHTML = `<div class="card"><b>Progresso em ${c.name}</b>
+    <div class="big">${doneN} de ${total} lições</div>
+    <div class="pt">Sequência: ${S.streak} dia(s) · Vidas: ${S.hearts}</div>
+    <button class="btn alt" onclick="if(confirm('Apagar todo o progresso?')){localStorage.removeItem('${KEY}');location.reload();}">Zerar progresso</button></div>`;
+}
+
+/* ============ VOZ (Web Speech; qualidade varia por aparelho) ============ */
+function speak(text, lang){
+  if (!('speechSynthesis' in window)) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang; u.rate = 0.85;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+
+/* ============ NAVEGAÇÃO ============ */
+function render(){
+  paintHeader();
+  document.querySelectorAll('nav.bottom button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('t-'+tab).classList.add('on');
+  if (tab==='trail') showTrail();
+  if (tab==='alex') showAlex();
+  if (tab==='review') showReview();
+  if (tab==='stats') showStats();
+}
+['trail','alex','review','stats'].forEach(t=>{
+  document.getElementById('t-'+t).onclick = ()=>{ tab=t; run=null; render(); };
+});
+document.getElementById('l-de').onclick = ()=>{ S.lang='de'; save(); run=null; tab='trail'; render(); };
+document.getElementById('l-en').onclick = ()=>{ S.lang='en'; save(); run=null; tab='trail'; render(); };
+
+render();
+
+// Service worker: permite usar offline e instalar na tela inicial
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
