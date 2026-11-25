@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1cb0f6">
+<meta name="theme-color" content="#131f24">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="SwissPath">
 <link rel="manifest" href="manifest.json">
@@ -11,61 +11,68 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <title>SwissPath</title>
 <style>
-:root{--green:#58cc02;--gold:#ffc800;--red:#ff4b4b;--ink:#2b3a55;--mut:#7a869a;--line:#e3e8f0;--bg:#f2f6fb}
+:root{--bg:#131f24;--card:#1f2c33;--line:#37464f;--ink:#f1f7fb;--mut:#9fb0bb;--green:#58cc02;--gold:#ffc800;--red:#ff4b4b;--blue:#1cb0f6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-top:env(safe-area-inset-top,0)}
-header{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1cb0f6,#4f7cff);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:0 0 20px 20px;box-shadow:0 6px 16px rgba(30,100,210,.25)}
-header button{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:14px;padding:7px 11px;font-weight:800;margin-right:5px;font-size:14px}
-header button.on{background:#fff;color:#1769d6}
-.hs{font-weight:800;font-size:14px;white-space:nowrap}
+body{margin:0;font-family:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-top:env(safe-area-inset-top,0)}
+header{position:sticky;top:0;z-index:6;background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:2px solid var(--line)}
+.c2{display:flex;align-items:center;gap:6px;font-weight:800;font-size:15px;padding:6px 8px;border-radius:14px;color:var(--ink);background:none;border:0}
+.c2 svg{width:22px;height:22px}.flag svg{width:38px;height:27px;border-radius:6px;border:2px solid var(--line)}
+.xpb{width:44px;height:9px;border-radius:5px;background:var(--line);overflow:hidden;display:block}.xpb i{display:block;height:100%;background:var(--gold);border-radius:5px}
+#menu{position:fixed;inset:0;z-index:30;background:#0009;display:none}#menu.on{display:block}
+.box{position:absolute;top:56px;left:12px;width:250px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:8px;animation:up .2s}
+.lg{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;font-weight:800;border:0;background:none;color:var(--ink);width:100%;font-size:16px;text-align:left}
+.lg.on{background:#15384d;box-shadow:inset 0 0 0 2px var(--blue)}
 main{max-width:520px;margin:auto;padding:14px 14px 110px}
-.card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 3px 0 var(--line),0 10px 24px rgba(40,70,120,.07);margin-bottom:14px;animation:up .3s}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px;animation:up .3s}
 @keyframes up{from{opacity:0;transform:translateY(10px)}}
-.unit{border-radius:20px;padding:14px 16px;margin:24px 0 8px;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 0 rgba(0,0,0,.12)}
+.unit{border-radius:18px;padding:14px 16px;margin:24px 0 8px;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 0 rgba(0,0,0,.35)}
 .nd{display:flex;justify-content:center;margin:14px 0 4px}
-.nd button{width:78px;height:78px;border-radius:50%;border:0;font-size:30px;color:#fff;background:var(--green);box-shadow:0 7px 0 #46a302;transition:.1s}
+.nd button{width:80px;height:74px;border-radius:50%;border:0;color:#fff;background:var(--green);box-shadow:0 7px 0 #46a302;display:flex;align-items:center;justify-content:center}
+.nd button svg{width:36px;height:36px}
 .nd button:active:not(:disabled){transform:translateY(5px);box-shadow:0 2px 0 #46a302}
-.nd button:disabled{background:#cdd5e0;box-shadow:0 7px 0 #b3bccb}
+.nd button:disabled{background:#37464f;color:#6b7d89;box-shadow:0 7px 0 #2a363d}
 .nd button.dn{background:var(--gold);box-shadow:0 7px 0 #d9a900}
-.nd button.cur{animation:pl 1.3s infinite}
-@keyframes pl{50%{transform:scale(1.1)}}
-.lbl{text-align:center;font-size:13px;color:var(--mut);font-weight:700}
-.btn{display:block;width:100%;padding:14px;border:0;border-radius:16px;background:var(--green);color:#fff;font-weight:800;font-size:16px;box-shadow:0 5px 0 #46a302;margin-top:12px}
+.nd button.cur{animation:pl 1.3s infinite}@keyframes pl{50%{transform:scale(1.1)}}
+.lbl{text-align:center;font-size:13px;color:var(--mut);font-weight:800}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border:0;border-radius:16px;background:var(--green);color:#10230a;font-weight:800;font-size:16px;box-shadow:0 5px 0 #46a302;margin-top:12px;text-transform:uppercase;letter-spacing:.4px}
 .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #46a302}
-.btn.alt{background:#fff;color:#1769d6;border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
-.btn.red{background:var(--red);box-shadow:0 5px 0 #d63a3a}
+.btn.alt{background:var(--card);color:var(--blue);border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+.btn.red{background:var(--red);color:#fff;box-shadow:0 5px 0 #c93030}
+.row{display:flex;gap:10px}.row .btn{margin-top:8px}
 .top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.x{border:0;background:none;font-size:22px;color:var(--mut)}
-.bar{flex:1;height:14px;border-radius:9px;background:var(--line);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--green);border-radius:9px;transition:width .4s}
+.x{border:0;background:none;font-size:24px;color:var(--mut)}
+.bar{flex:1;height:14px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--green);border-radius:9px;transition:width .4s}
 .big{font-size:22px;font-weight:800;margin:6px 0 10px}
-.opt{display:block;width:100%;text-align:left;padding:14px;margin-top:10px;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:#fff;font-size:17px;color:var(--ink)}
-.opt.ok{border-color:var(--green);background:#e6f9d0}.opt.bad{border-color:var(--red);background:#ffe3e3;animation:sk .3s}
+.opt{display:block;width:100%;text-align:left;padding:14px;margin-top:10px;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:var(--card);font-size:17px;color:var(--ink)}
+.opt.ok{border-color:var(--green);background:#1d3a14}.opt.bad{border-color:var(--red);background:#3a1818;animation:sk .3s}
 @keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-input[type=text]{width:100%;padding:14px;font-size:18px;border:2px solid var(--line);border-radius:16px}
+input[type=text]{width:100%;padding:14px;font-size:18px;border:2px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:8px 0;border-bottom:2px solid var(--line);margin-bottom:12px}
-.chip{padding:10px 14px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:#fff;font-size:17px;font-weight:700}
+.chip{padding:10px 14px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--card);font-size:17px;font-weight:700}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.mt .opt{margin-top:10px;text-align:center}.mt .sel{border-color:var(--blue);background:#12354a}.mt .dn{opacity:.3;pointer-events:none}
 .w{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .pt{color:var(--mut);font-size:14px}
-.tip{background:#fff7e0;border-left:5px solid var(--gold);border-radius:12px;padding:12px;margin:10px 0;font-size:15px}
+.tip{background:#33290a;border-left:5px solid var(--gold);border-radius:12px;padding:12px;margin:10px 0;font-size:15px}
+.sum{display:flex;gap:10px;margin-top:12px}.sum div{flex:1;border:2px solid var(--k);border-radius:14px;padding:8px 4px;background:var(--bg)}.sum b{display:block;font-size:22px;color:var(--k)}.sum span{font-size:12px;color:var(--mut);font-weight:800;text-transform:uppercase}
 .sheet{position:fixed;left:0;right:0;bottom:0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0));animation:up .25s;z-index:9;border-radius:22px 22px 0 0}
-.sheet.ok{background:#d7f7b4;color:#2f7a00}.sheet.bad{background:#ffdcdc;color:#b00020}
-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--line);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0));z-index:4}
-nav button{background:none;border:0;font-size:13px;color:var(--mut);font-weight:800}
-nav button.on{color:#1769d6}
-.cf{position:fixed;top:-30px;font-size:24px;animation:fall 2.2s linear forwards;z-index:20}
-@keyframes fall{to{transform:translateY(115vh) rotate(420deg)}}
+.sheet.ok{background:#16341a;color:#7ee03a}.sheet.bad{background:#3a1717;color:#ff8a8a}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:2px solid var(--line);display:flex;justify-content:space-around;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0));z-index:4}
+nav button{background:none;border:2px solid transparent;border-radius:14px;color:var(--mut);padding:6px 14px}nav svg{width:30px;height:30px;display:block}
+nav button.on{color:var(--blue);background:#15384d;border-color:var(--blue)}
+.cf{position:fixed;top:-30px;font-size:24px;animation:fall 2.2s linear forwards;z-index:20}@keyframes fall{to{transform:translateY(115vh) rotate(420deg)}}
+.mas{display:block;margin:0 auto;animation:bob 3s ease-in-out infinite}.mas .eye{transform-origin:60px 52px;animation:bl 4s infinite}
+.mas .mouth{transform-origin:60px 80px}.mas.talk .mouth{animation:tk .16s infinite alternate}.mas.jump{animation:jp .6s 3}
+@keyframes bob{50%{transform:translateY(-5px)}}@keyframes bl{94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}@keyframes tk{to{transform:scaleY(5)}}@keyframes jp{50%{transform:translateY(-22px)}}
 </style>
 </head>
 <body>
 <header>
-  <div><button id="l-de">🇩🇪 Alemão</button><button id="l-en">🇬🇧 Inglês</button></div>
-  <div class="hs"><span id="xp"></span> &nbsp;<span id="st"></span> &nbsp;<span id="hs"></span></div>
+  <button id="fl" class="c2" onclick="langMenu()"></button>
+  <div style="display:flex"><span id="st" class="c2"></span><span id="hs" class="c2"></span><span id="xp" class="c2"></span></div>
 </header>
 <main id="app"></main>
-<nav id="nav">
-  <button data-t="trail">⏩ Trilha</button><button data-t="alex">💬 Alex</button><button data-t="review">🔁 Revisão</button><button data-t="stats">📊 Progresso</button>
-</nav>
+<nav id="nav"><button data-t="trail" aria-label="Trilha"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7 7 .6-5.3 4.7 1.7 7.2L12 17.8 5.6 21.5l1.7-7.2L2 9.6 9 9z"/></svg></button><button data-t="alex" aria-label="Alex"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2h-8l-5 4v-4H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg></button><button data-t="review" aria-label="Revisão"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a8 8 0 017.5 5.2l2-.7-.5 5-4.4-2.6 1.9-.6A5.5 5.5 0 0012 6.5V4zm0 16a8 8 0 01-7.500-5.200l-2 .7.500-5 4.400 2.600-1.900.6A5.500 5.500 0 0012 17.500V20z"/></svg></button><button data-t="stats" aria-label="Progresso"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20V10h4v10H4zm6 0V4h4v16h-4zm6 0v-7h4v7h-4z"/></svg></button></nav>
+<div id="menu"></div>
 <script src="content.js"></script>
 <script>
 const KEY='swisspath-v2', $=id=>document.getElementById(id), app=$('app');
@@ -77,9 +84,24 @@ const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1])
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
 function refill(){ if(S.hearts<5){ const n=Math.floor((Date.now()-(S.hAt||Date.now()))/9e5); if(n>0){S.hearts=Math.min(5,S.hearts+n);S.hAt=Date.now();} } }
 function save(){ localStorage.setItem(KEY,JSON.stringify(S)); head(); }
-function head(){ refill(); $('l-de').className=S.lang==='de'?'on':''; $('l-en').className=S.lang==='en'?'on':''; $('hs').textContent='❤️ '+S.hearts; $('st').textContent='🔥 '+S.streak; $('xp').textContent='⭐ '+S.xp; }
+function head(){ refill(); const lv=Math.floor(S.xp/100)+1;
+  $('fl').innerHTML=`<span class="flag">${FLAG[S.lang]}</span><svg viewBox="0 0 24 24" style="width:14px"><path d="M5 9l7 7 7-7" stroke="#9fb0bb" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  $('st').innerHTML=FLM+S.streak; $('hs').innerHTML=HRT+S.hearts;
+  $('xp').innerHTML=`<span style="color:var(--gold)">Nv ${lv}</span><span class="xpb"><i style="width:${S.xp%100}%"></i></span>`; }
 function touchStreak(){ const t=new Date().toDateString(); if(S.lastDay!==t){ S.streak=(S.lastDay===new Date(Date.now()-864e5).toDateString())?S.streak+1:1; S.lastDay=t; } }
-function speak(t){ if(!('speechSynthesis' in window))return; const u=new SpeechSynthesisUtterance(t); u.lang=COURSE[S.lang].sl; u.rate=.85; speechSynthesis.cancel(); speechSynthesis.speak(u); }
+const SPK='<svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 9v6h4l5 4V5L7 9z" fill="currentColor"/><path d="M15 8a5 5 0 010 8M18 5a9 9 0 010 14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+const FLM='<svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 01-12 0c0-3 2-4 3-7 1 1 2 2 3 4 1-3 0-6 0-9z" fill="#ff9600"/></svg>', HRT='<svg viewBox="0 0 24 24"><path d="M12 21s-8-5.500-8-11a4.500 4.500 0 018-2.500A4.500 4.500 0 0120 10c0 5.500-8 11-8 11z" fill="#ff4b4b"/></svg>';
+const FLAG={de:'<svg viewBox="0 0 30 20"><rect width="30" height="7" fill="#111"/><rect y="7" width="30" height="6" fill="#d00"/><rect y="13" width="30" height="7" fill="#fc0"/></svg>',en:'<svg viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0l60 40M60 0L0 40" stroke="#fff" stroke-width="8"/><path d="M0 0l60 40M60 0L0 40" stroke="#c8102e" stroke-width="3"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="12"/><path d="M30 0v40M0 20h60" stroke="#c8102e" stroke-width="7"/></svg>'};
+const I={ck:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.500 4.500L19 7" stroke="#fff" stroke-width="3.500" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',st:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3 7 7 .6-5.300 4.700 1.700 7.200L12 17.800 5.600 21.500l1.700-7.200L2 9.600 9 9z"/></svg>',lk:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 10V8a6 6 0 0112 0v2h1v11H5V10h1zm2 0h8V8a4 4 0 00-8 0v2z"/></svg>',tr:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M7 3h10v2h3v3a4 4 0 01-4 4 5 5 0 01-3 2.900V17h3v3H8v-3h3v-2.100A5 5 0 018 12a4 4 0 01-4-4V5h3V3zM6 7v1a2 2 0 001 1.700V7H6zm12 0h-1v2.700A2 2 0 0018 8V7z"/></svg>'};
+const MAS=(c='')=>`<svg class="mas ${c}" viewBox="0 0 120 120" width="92" height="92"><ellipse cx="60" cy="110" rx="34" ry="6" fill="#0006"/><path d="M26 20l16 16M94 20L78 36" stroke="#46a302" stroke-width="9" stroke-linecap="round"/><circle cx="60" cy="62" r="46" fill="#58cc02"/><ellipse cx="60" cy="80" rx="30" ry="22" fill="#9be15d"/><g class="eye"><circle cx="43" cy="52" r="13" fill="#fff"/><circle cx="77" cy="52" r="13" fill="#fff"/><circle cx="45" cy="54" r="6" fill="#1b2b34"/><circle cx="75" cy="54" r="6" fill="#1b2b34"/></g><path d="M51 62h18l-9 11z" fill="#ffc800"/><ellipse class="mouth" cx="60" cy="82" rx="8" ry="2" fill="#8a3b12"/></svg>`;
+function talk(on){ document.querySelectorAll('.mas').forEach(m=>m.classList.toggle('talk',on)); }
+function voice(){ const sl=COURSE[S.lang].sl, vs=speechSynthesis.getVoices().filter(v=>v.lang.replace('_','-').toLowerCase().startsWith(sl.slice(0,2)));
+  return vs.find(v=>/premium|enhanced|natural/i.test(v.name))||vs.find(v=>/google/i.test(v.name))||vs.find(v=>/anna|markus|petra|samantha|daniel|karen|serena|ava|zoe/i.test(v.name))||vs.find(v=>v.lang.replace('_','-').toLowerCase()===sl.toLowerCase())||vs[0]; }
+function speak(t,slow){ if(!('speechSynthesis' in window))return; const u=new SpeechSynthesisUtterance(t); u.lang=COURSE[S.lang].sl; const v=voice(); if(v)u.voice=v; u.rate=slow?.6:.88; u.onstart=()=>talk(true); u.onend=u.onerror=()=>talk(false); speechSynthesis.cancel(); speechSynthesis.speak(u); }
+let AC; function tone(f,d,t=0,ty='sine',v=.16){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime+t; o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d); }catch(e){} }
+const sfx={ok:()=>{tone(660,.12);tone(990,.22,.1)},bad:()=>{tone(200,.3,0,'sawtooth',.1)},win:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,.28,i*.11))};
+function langMenu(){ const m=$('menu'); m.classList.add('on'); m.onclick=()=>m.classList.remove('on'); m.innerHTML='<div class="box" onclick="event.stopPropagation()">'+Object.keys(COURSE).map(k=>`<button class="lg ${k===S.lang?'on':''}" onclick="setLang('${k}')"><span class="flag">${FLAG[k]}</span>${COURSE[k].name}</button>`).join('')+'</div>'; }
+function setLang(k){ S.lang=k; $('menu').classList.remove('on'); save(); tab='trail'; render(); }
 function boom(){ for(let i=0;i<26;i++){ const e=document.createElement('span'); e.className='cf'; e.textContent=['🎉','⭐','✨','🇨🇭'][i%4]; e.style.left=Math.random()*95+'vw'; e.style.animationDelay=Math.random()*.6+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),3200); } }
 
 /* ---------- exercícios gerados a partir das palavras da lição ---------- */
@@ -93,7 +115,8 @@ function mk(l){
   const T=x=>({t:'type',q:`Escreva em ${tl}: "${x[1]}"`,a:x[0]});
   const O={t:'order',q:`Monte a frase: "${p[1]}"`,a:p[0]};
   const Sh={t:'shadow',a:p[0],pt:p[1],say:p[0]};
-  return [Lh(g(0)),C(g(1)),R(g(2)),T(g(3)),O,Lh(g(4)),R(g(1)),T(g(0)),C(g(5)),Sh];
+  const M={t:'match',pairs:shuffle(w).slice(0,5)}, LT=x=>({t:'type',q:'Escreva o que você ouviu',a:x[0],say:x[0]});
+  return [Lh(g(0)),C(g(1)),R(g(2)),M,T(g(3)),O,Lh(g(4)),R(g(1)),LT(g(2)),T(g(0)),C(g(5)),Lh(g(3)),LT(g(5)),Sh];
 }
 
 /* ---------- trilha ---------- */
@@ -106,10 +129,10 @@ function showTrail(){
     if(!open) h+=`<button class="btn alt" onclick="startTest(${ui},1)">⏭️ Já sei: pular com teste</button>`;
     u.lessons.forEach((l,li)=>{
       const k=`${S.lang}-${ui}-${li}`, un=open&&(li===0||S.done[`${S.lang}-${ui}-${li-1}`]), dn=S.done[k], ic=un&&!dn&&cu; if(ic)cu=false;
-      h+=`<div class="nd" style="transform:translateX(${[0,38,58,38][li%4]}px)"><button class="${dn?'dn':''} ${ic?'cur':''}" ${un?'':'disabled'} onclick="openLesson(${ui},${li})">${dn?'✓':un?'★':'🔒'}</button></div><div class="lbl">${l.title}</div>`;
+      h+=`<div class="nd" style="transform:translateX(${[0,38,58,38][li%4]}px)"><button class="${dn?'dn':''} ${ic?'cur':''}" ${un?'':'disabled'} onclick="openLesson(${ui},${li})">${dn?I.ck:un?I.st:I.lk}</button></div><div class="lbl">${l.title}</div>`;
     });
     const lo=S.done[`${S.lang}-${ui}-${u.lessons.length-1}`], td=S.done[`${S.lang}-${ui}-t`];
-    h+=`<div class="nd"><button class="${td?'dn':''} ${lo&&!td?'cur':''}" ${lo?'':'disabled'} onclick="startTest(${ui},0)">${td?'✓':lo?'🏁':'🔒'}</button></div><div class="lbl">Teste da unidade</div>`;
+    h+=`<div class="nd"><button class="${td?'dn':''} ${lo&&!td?'cur':''}" ${lo?'':'disabled'} onclick="startTest(${ui},0)">${td?I.ck:lo?I.tr:I.lk}</button></div><div class="lbl">Teste da unidade</div>`;
   });
   const have=new Set(c.units.map(u=>u.lvl)), o=OUTLINE[S.lang];
   h+=`<div class="card" style="margin-top:26px"><b>Próximos níveis (em construção)</b>`+LV.filter(l=>!have.has(l)).map(l=>`<p><b>${l}</b> · ${o[l].join(' · ')}</p>`).join('')+`</div>`;
@@ -121,34 +144,43 @@ function openLesson(ui,li){
   refill();
   if(S.hearts<=0){ app.innerHTML=`<div class="card"><div class="big">Sem vidas 💔</div><p class="pt">Uma vida volta a cada 15 minutos. Enquanto isso, use a Revisão ou faça o teste de nível, que não gasta vidas.</p><button class="btn" onclick="render()">Voltar</button></div>`; return; }
   const l=COURSE[S.lang].units[ui].lessons[li];
-  run={kind:'lesson',key:`${S.lang}-${ui}-${li}`,items:[{t:'intro',l},...mk(l)],i:0,err:0}; step();
+  run={t0:Date.now(),ok:0,xp:0,kind:'lesson',key:`${S.lang}-${ui}-${li}`,items:[{t:'intro',l},...mk(l)],i:0,err:0}; step();
 }
 function startTest(ui,skip){
   const all=COURSE[S.lang].units.slice(skip?0:ui,ui+1).flatMap(u=>u.lessons.flatMap(l=>mk(l).filter(x=>x.t!=='shadow')));
-  run={kind:'test',skip,ui,items:shuffle(all).slice(0,8),i:0,err:0}; step();
+  run={t0:Date.now(),ok:0,xp:0,kind:'test',skip,ui,items:shuffle(all).slice(0,8),i:0,err:0}; step();
 }
-function startPlacement(){ run={kind:'place',hits:{},items:PLACE[S.lang],i:0,err:0}; step(); }
+function startPlacement(){ run={t0:Date.now(),ok:0,xp:0,kind:'place',hits:{},items:PLACE[S.lang],i:0,err:0}; step(); }
 
 function step(){
   const it=cur(); if(!it) return fin();
   const pc=Math.round(run.i/run.items.length*100); let b='';
+  const AUD=`${MAS()}<div class="row"><button class="btn alt" onclick="speak(cur().say||cur().a)">${SPK} Ouvir</button><button class="btn alt" onclick="speak(cur().say||cur().a,1)">Devagar</button></div>`;
   if(it.t==='intro'){
-    b=`<div class="big">${it.l.title}</div><div class="tip">💡 ${it.l.tip}</div>`+it.l.w.map((x,i)=>`<div class="w"><div><b>${x[0]}</b><div class="pt">${x[1]}</div></div><button class="btn alt" style="width:auto;margin:0;padding:8px 14px" onclick="speak('${x[0].replace(/'/g,"\\'")}')">🔊</button></div>`).join('')+`<button class="btn" onclick="run.i++;step()">Começar</button>`;
+    b=`${MAS()}<div class="big">${it.l.title}</div><div class="tip">💡 ${it.l.tip}</div>`+it.l.w.map((x,i)=>`<div class="w"><div><b>${x[0]}</b><div class="pt">${x[1]}</div></div><button class="btn alt" style="width:auto;margin:0;padding:8px 14px" onclick="speak(cur().l.w[${i}][0])">${SPK}</button></div>`).join('')+`<button class="btn" onclick="run.i++;step()">Começar</button>`;
   } else if(it.t==='choice'){
-    b=`<div class="big">${it.q}</div>${it.say?`<button class="btn alt" onclick="speak(cur().say)">🔊 Ouvir de novo</button>`:''}`+it.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('');
+    b=`<div class="big">${it.q}</div>${it.say?AUD:''}`+it.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('');
   } else if(it.t==='type'){
-    b=`<div class="big">${it.q}</div><input type="text" id="inp" autocomplete="off" autocapitalize="none" onkeydown="if(event.key==='Enter')chk()"><button class="btn" onclick="chk()">Verificar</button>`;
+    b=`<div class="big">${it.q}</div>${it.say?AUD:''}<input type="text" id="inp" autocomplete="off" autocapitalize="none" onkeydown="if(event.key==='Enter')chk()" style="margin-top:12px"><button class="btn" onclick="chk()">Verificar</button>`;
   } else if(it.t==='order'){
     it.tk=it.tk||shuffle(it.a.split(' ')); it.sel=[];
     b=`<div class="big">${it.q}</div><div class="chips" id="ans"></div><div class="chips" id="bank" style="border:0"></div><button class="btn" onclick="chkO()">Verificar</button>`;
   } else if(it.t==='shadow'){
-    b=`<div class="pt">Ouça e repita em voz alta (shadowing)</div><div class="big">${it.a}</div><div class="pt">${it.pt}</div><button class="btn alt" onclick="speak(cur().say)">🔊 Ouvir</button><button class="btn" onclick="run.i++;step()">Repeti, continuar</button>`;
+    b=`<div class="pt">Ouça e repita em voz alta (shadowing)</div><div class="big">${it.a}</div><div class="pt">${it.pt}</div>${AUD}<button class="btn" onclick="run.i++;step()">Repeti, continuar</button>`;
+  } else if(it.t==='match'){
+    it.s=-1; it.d=0; it.Rr=shuffle(it.pairs.map((_,i)=>i));
+    b=`<div class="big">Toque nos pares</div><div class="mt"><div>`+it.pairs.map((p,i)=>`<button class="opt" id="L${i}" onclick="mL(${i})">${p[0]}</button>`).join('')+`</div><div>`+it.Rr.map((i,j)=>`<button class="opt" id="R${j}" onclick="mR(${j})">${it.pairs[i][1]}</button>`).join('')+`</div></div>`;
   }
   app.innerHTML=`<div class="top"><button class="x" onclick="if(confirm('Sair da lição?')){run=null;render()}">✕</button><div class="bar"><i style="width:${pc}%"></i></div></div><div class="card">${b}</div><div id="sheet"></div>`;
   if(it.t==='order') ordUI();
   if(it.t==='type') setTimeout(()=>$('inp').focus(),60);
-  if(it.say) speak(it.say);
+  if(it.say) speak(it.say); else if(it.t==='shadow') speak(it.a);
 }
+function mL(i){ const it=cur(); it.s=i; document.querySelectorAll('[id^=L]').forEach(b=>b.classList.remove('sel')); $('L'+i).classList.add('sel'); speak(it.pairs[i][0]); }
+function mR(j){ const it=cur(); if(it.s<0)return;
+  if(it.Rr[j]===it.s){ sfx.ok(); $('L'+it.s).classList.add('dn'); $('R'+j).classList.add('dn'); it.s=-1; it.d++;
+    if(it.d===it.pairs.length){ run.ok++; if(run.kind==='lesson'){S.xp+=5;run.xp+=5;} save(); setTimeout(()=>{run.i++;step()},500); } }
+  else { sfx.bad(); run.err++; loseHeart(); save(); $('R'+j).classList.add('bad'); setTimeout(()=>{const e=$('R'+j); e&&e.classList.remove('bad')},350); } }
 function pick(k){
   const it=cur(); const ok=it.o[k]===it.a;
   document.querySelectorAll('.opt').forEach((b,i)=>{ b.disabled=true; if(it.o[i]===it.a)b.classList.add('ok'); else if(i===k)b.classList.add('bad'); });
@@ -161,14 +193,15 @@ function ordUI(){
   $('bank').innerHTML=it.tk.map((t,i)=>it.sel.includes(i)?'':`<span class="chip" onclick="cur().sel.push(${i});ordUI()">${t}</span>`).join('');
 }
 function chkO(){ const it=cur(); verdict(norm(it.sel.map(i=>it.tk[i]).join(' '))===norm(it.a),it.a); }
+function loseHeart(){ if(run.kind!=='lesson')return; if(S.hearts===5)S.hAt=Date.now(); S.hearts=Math.max(0,S.hearts-1); }
 function verdict(ok,ans){
   const it=cur();
-  if(run.kind==='place'){ run.hits[it.lvl]=(run.hits[it.lvl]||0)+(ok?1:0); }
-  else if(!ok){ run.err++; S.errors=[...S.errors,{lang:S.lang,q:it.q,a:it.a}].slice(-60); if(run.kind==='lesson'){ if(S.hearts===5)S.hAt=Date.now(); S.hearts=Math.max(0,S.hearts-1); } }
-  else if(run.kind==='lesson') S.xp+=5;
-  save();
+  if(run.kind==='place'){ run.hits[it.lvl]=(run.hits[it.lvl]||0)+(ok?1:0); ok?run.ok++:run.err++; }
+  else if(!ok){ run.err++; S.errors=[...S.errors,{lang:S.lang,q:it.q,a:it.a}].slice(-60); loseHeart(); if(run.kind==='lesson'&&!it.rq) run.items.push({...it,rq:1,tk:null}); }
+  else { run.ok++; if(run.kind==='lesson'){S.xp+=5;run.xp+=5;} }
+  ok?sfx.ok():sfx.bad(); save();
   $('sheet').className='sheet '+(ok?'ok':'bad');
-  $('sheet').innerHTML=`<b>${ok?'Muito bem! 🎉':'Resposta correta:'}</b><div style="margin-top:4px">${ok?'':ans}</div><button class="btn ${ok?'':'red'}" onclick="nxt()">Continuar</button>`;
+  $('sheet').innerHTML=`<b>${ok?'Muito bem!':'Resposta correta:'}</b><div style="margin-top:4px">${ok?'':ans}</div><button class="btn ${ok?'':'red'}" onclick="nxt()">Continuar</button>`;
 }
 function nxt(){
   if(run.kind==='lesson'&&S.hearts<=0){ run=null; app.innerHTML=`<div class="card"><div class="big">Acabaram as vidas 💔</div><p class="pt">Volte em alguns minutos: uma vida é devolvida a cada 15 minutos.</p><button class="btn" onclick="render()">Voltar à trilha</button></div>`; return; }
@@ -176,22 +209,25 @@ function nxt(){
 }
 function markUnit(ui){ COURSE[S.lang].units[ui].lessons.forEach((l,li)=>S.done[`${S.lang}-${ui}-${li}`]=1); S.done[`${S.lang}-${ui}-t`]=1; }
 function fin(){
-  let msg,win=true;
-  if(run.kind==='place'){
-    let p=-1; for(let k=0;k<LV.length;k++){ if((run.hits[LV[k]]||0)>=2)p=k; else break; }
+  let msg,win=true,k=run.kind;
+  if(k==='place'){
+    let p=-1; for(let q=0;q<LV.length;q++){ if((run.hits[LV[q]]||0)>=2)p=q; else break; }
     COURSE[S.lang].units.forEach((u,ui)=>{ if(LV.indexOf(u.lvl)<=p) markUnit(ui); });
     msg=p<0?'Você começa do início (A1).':`Nível estimado: <b>${LV[p]}</b>. As unidades disponíveis até esse nível foram liberadas.`;
-  } else if(run.kind==='test'){
+  } else if(k==='test'){
     win=run.err<=1;
-    if(win){ if(run.skip){ for(let k=0;k<=run.ui;k++)markUnit(k); } else S.done[`${S.lang}-${run.ui}-t`]=1; S.xp+=30; }
-    msg=win?'Você passou no teste! A próxima unidade foi liberada. +30 XP':`Você errou ${run.err}. Refaça as lições da unidade e tente de novo.`;
-  } else { S.done[run.key]=1; S.xp+=20; msg=`Lição concluída! +20 XP<br><span class="pt">Erros: ${run.err}</span>`; }
-  touchStreak(); save(); run=null; if(win)boom();
-  app.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:60px">${win?'🏆':'💪'}</div><div class="big">${win?'Muito bem!':'Quase lá'}</div><p>${msg}</p><button class="btn" onclick="render()">Voltar à trilha</button></div>`;
+    if(win){ if(run.skip){ for(let q=0;q<=run.ui;q++)markUnit(q); } else S.done[`${S.lang}-${run.ui}-t`]=1; S.xp+=30; run.xp+=30; }
+    msg=win?'Você passou no teste! A próxima unidade foi liberada.':`Você errou ${run.err}. Refaça as lições da unidade e tente de novo.`;
+  } else { S.done[run.key]=1; S.xp+=20; run.xp+=20; msg='Lição concluída!'; }
+  const sec=Math.round((Date.now()-run.t0)/1000), tot=run.ok+run.err, acc=tot?Math.round(run.ok/tot*100):100, tm=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`, r=run;
+  touchStreak(); save(); run=null; if(win){sfx.win();boom();}
+  app.innerHTML=`<div class="card" style="text-align:center">${MAS(win?'jump':'')}<div class="big">${win?'Muito bem!':'Quase lá'}</div><p>${msg}</p>
+  <div class="sum"><div style="--k:#ffc800"><b>+${r.xp}</b><span>XP</span></div><div style="--k:#1cb0f6"><b>${tm}</b><span>Tempo</span></div><div style="--k:#58cc02"><b>${acc}%</b><span>Precisão</span></div></div>
+  <div class="sum"><div style="--k:#58cc02"><b>${r.ok}</b><span>Acertos</span></div><div style="--k:#ff4b4b"><b>${r.err}</b><span>Erros</span></div></div><button class="btn" onclick="render()">Continuar</button></div>`;
 }
 
 /* ---------- outras abas ---------- */
-function showAlex(){ app.innerHTML=`<div class="card"><div class="big">💬 Alex</div><div class="tip">A conversa com IA ainda não está ligada: ela precisa de um servidor próprio para proteger a chave de acesso. É o próximo passo do projeto.</div><p class="pt">Por enquanto, treine falando em voz alta as frases dos exercícios de shadowing.</p></div>`; }
+function showAlex(){ app.innerHTML=`<div class="card" style="text-align:center">${MAS()}<div class="big">Alex</div><div class="tip" style="text-align:left">A conversa com IA ainda não está ligada. Dá para ligar sem servidor próprio usando uma chave de API sua, guardada só neste aparelho. É o próximo passo.</div></div>`; }
 function showReview(){
   const e=S.errors.filter(x=>x.lang===S.lang).slice(-12).reverse();
   app.innerHTML=`<div class="card"><div class="big">🔁 Banco de erros</div>`+(e.length?e.map(x=>`<div class="w"><div><div class="pt">${x.q}</div><b>${x.a}</b></div><button class="btn alt" style="width:auto;margin:0;padding:8px 14px" onclick="speak('${x.a.replace(/'/g,"\\'")}')">🔊</button></div>`).join(''):'<p class="pt">Nenhum erro por enquanto. Os erros das lições aparecem aqui.</p>')+`</div>`;
@@ -206,8 +242,6 @@ function render(){
   ({trail:showTrail,alex:showAlex,review:showReview,stats:showStats})[tab]();
 }
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();});
-$('l-de').onclick=()=>{S.lang='de';save();tab='trail';render();};
-$('l-en').onclick=()=>{S.lang='en';save();tab='trail';render();};
 render();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>

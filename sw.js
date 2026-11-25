@@ -1,4 +1,4 @@
-const CACHE = 'swisspath-v2';
+const CACHE = 'swisspath-v3';
 const FILES = ['./', './index.html', './content.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {
