@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1cb0f6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SwissPath">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>SwissPath</title>
+<style>
+:root{--green:#58cc02;--gold:#ffc800;--red:#ff4b4b;--ink:#2b3a55;--mut:#7a869a;--line:#e3e8f0;--bg:#f2f6fb}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);padding-top:env(safe-area-inset-top,0)}
+header{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#1cb0f6,#4f7cff);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:0 0 20px 20px;box-shadow:0 6px 16px rgba(30,100,210,.25)}
+header button{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:14px;padding:7px 11px;font-weight:800;margin-right:5px;font-size:14px}
+header button.on{background:#fff;color:#1769d6}
+.hs{font-weight:800;font-size:14px;white-space:nowrap}
+main{max-width:520px;margin:auto;padding:14px 14px 110px}
+.card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 3px 0 var(--line),0 10px 24px rgba(40,70,120,.07);margin-bottom:14px;animation:up .3s}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.unit{border-radius:20px;padding:14px 16px;margin:24px 0 8px;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 0 rgba(0,0,0,.12)}
+.nd{display:flex;justify-content:center;margin:14px 0 4px}
+.nd button{width:78px;height:78px;border-radius:50%;border:0;font-size:30px;color:#fff;background:var(--green);box-shadow:0 7px 0 #46a302;transition:.1s}
+.nd button:active:not(:disabled){transform:translateY(5px);box-shadow:0 2px 0 #46a302}
+.nd button:disabled{background:#cdd5e0;box-shadow:0 7px 0 #b3bccb}
+.nd button.dn{background:var(--gold);box-shadow:0 7px 0 #d9a900}
+.nd button.cur{animation:pl 1.3s infinite}
+@keyframes pl{50%{transform:scale(1.1)}}
+.lbl{text-align:center;font-size:13px;color:var(--mut);font-weight:700}
+.btn{display:block;width:100%;padding:14px;border:0;border-radius:16px;background:var(--green);color:#fff;font-weight:800;font-size:16px;box-shadow:0 5px 0 #46a302;margin-top:12px}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #46a302}
+.btn.alt{background:#fff;color:#1769d6;border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+.btn.red{background:var(--red);box-shadow:0 5px 0 #d63a3a}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.x{border:0;background:none;font-size:22px;color:var(--mut)}
+.bar{flex:1;height:14px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:9px;transition:width .4s}
+.big{font-size:22px;font-weight:800;margin:6px 0 10px}
+.opt{display:block;width:100%;text-align:left;padding:14px;margin-top:10px;border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;background:#fff;font-size:17px;color:var(--ink)}
+.opt.ok{border-color:var(--green);background:#e6f9d0}.opt.bad{border-color:var(--red);background:#ffe3e3;animation:sk .3s}
+@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+input[type=text]{width:100%;padding:14px;font-size:18px;border:2px solid var(--line);border-radius:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:8px 0;border-bottom:2px solid var(--line);margin-bottom:12px}
+.chip{padding:10px 14px;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:#fff;font-size:17px;font-weight:700}
+.w{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.pt{color:var(--mut);font-size:14px}
+.tip{background:#fff7e0;border-left:5px solid var(--gold);border-radius:12px;padding:12px;margin:10px 0;font-size:15px}
+.sheet{position:fixed;left:0;right:0;bottom:0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0));animation:up .25s;z-index:9;border-radius:22px 22px 0 0}
+.sheet.ok{background:#d7f7b4;color:#2f7a00}.sheet.bad{background:#ffdcdc;color:#b00020}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--line);display:flex;justify-content:space-around;padding:8px 0 calc(8px + env(safe-area-inset-bottom,0));z-index:4}
+nav button{background:none;border:0;font-size:13px;color:var(--mut);font-weight:800}
+nav button.on{color:#1769d6}
+.cf{position:fixed;top:-30px;font-size:24px;animation:fall 2.2s linear forwards;z-index:20}
+@keyframes fall{to{transform:translateY(115vh) rotate(420deg)}}
+</style>
+</head>
+<body>
+<header>
+  <div><button id="l-de">🇩🇪 Alemão</button><button id="l-en">🇬🇧 Inglês</button></div>
+  <div class="hs"><span id="xp"></span> &nbsp;<span id="st"></span> &nbsp;<span id="hs"></span></div>
+</header>
+<main id="app"></main>
+<nav id="nav">
+  <button data-t="trail">⏩ Trilha</button><button data-t="alex">💬 Alex</button><button data-t="review">🔁 Revisão</button><button data-t="stats">📊 Progresso</button>
+</nav>
+<script src="content.js"></script>
+<script>
+const KEY='swisspath-v2', $=id=>document.getElementById(id), app=$('app');
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||{lang:'de',done:{},hearts:5,streak:0,lastDay:'',xp:0,errors:[]};
+let tab='trail', run=null;
+const LC={A1:['#58cc02','#2f9e00'],A2:['#1cb0f6','#1769d6']};
+const cur=()=>run.items[run.i];
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+function refill(){ if(S.hearts<5){ const n=Math.floor((Date.now()-(S.hAt||Date.now()))/9e5); if(n>0){S.hearts=Math.min(5,S.hearts+n);S.hAt=Date.now();} } }
+function save(){ localStorage.setItem(KEY,JSON.stringify(S)); head(); }
+function head(){ refill(); $('l-de').className=S.lang==='de'?'on':''; $('l-en').className=S.lang==='en'?'on':''; $('hs').textContent='❤️ '+S.hearts; $('st').textContent='🔥 '+S.streak; $('xp').textContent='⭐ '+S.xp; }
+function touchStreak(){ const t=new Date().toDateString(); if(S.lastDay!==t){ S.streak=(S.lastDay===new Date(Date.now()-864e5).toDateString())?S.streak+1:1; S.lastDay=t; } }
+function speak(t){ if(!('speechSynthesis' in window))return; const u=new SpeechSynthesisUtterance(t); u.lang=COURSE[S.lang].sl; u.rate=.85; speechSynthesis.cancel(); speechSynthesis.speak(u); }
+function boom(){ for(let i=0;i<26;i++){ const e=document.createElement('span'); e.className='cf'; e.textContent=['🎉','⭐','✨','🇨🇭'][i%4]; e.style.left=Math.random()*95+'vw'; e.style.animationDelay=Math.random()*.6+'s'; document.body.appendChild(e); setTimeout(()=>e.remove(),3200); } }
+
+/* ---------- exercícios gerados a partir das palavras da lição ---------- */
+const pool=()=>COURSE[S.lang].units.flatMap(u=>u.lessons.flatMap(l=>l.w));
+function mk(l){
+  const w=l.w, p=l.p, P=pool(), tl=COURSE[S.lang].tl, g=i=>w[i%w.length];
+  const opts=(ans,k)=>shuffle([ans,...shuffle([...new Set(P.map(x=>x[k]))].filter(x=>x!==ans)).slice(0,2)]);
+  const Lh=x=>({t:'choice',q:'Ouça e escolha o significado',o:opts(x[1],1),a:x[1],say:x[0]});
+  const C=x=>({t:'choice',q:`O que significa "${x[0]}"?`,o:opts(x[1],1),a:x[1]});
+  const R=x=>({t:'choice',q:`Como se diz "${x[1]}"?`,o:opts(x[0],0),a:x[0]});
+  const T=x=>({t:'type',q:`Escreva em ${tl}: "${x[1]}"`,a:x[0]});
+  const O={t:'order',q:`Monte a frase: "${p[1]}"`,a:p[0]};
+  const Sh={t:'shadow',a:p[0],pt:p[1],say:p[0]};
+  return [Lh(g(0)),C(g(1)),R(g(2)),T(g(3)),O,Lh(g(4)),R(g(1)),T(g(0)),C(g(5)),Sh];
+}
+
+/* ---------- trilha ---------- */
+function showTrail(){
+  const c=COURSE[S.lang]; let cu=true;
+  let h=`<div class="card"><b>${c.name}</b><div class="pt">Complete as lições, passe no teste da unidade e avance.</div><button class="btn alt" onclick="startPlacement()">🎯 Fazer teste de nível</button></div>`;
+  c.units.forEach((u,ui)=>{
+    const pk=ui?`${S.lang}-${ui-1}-t`:null, open=!pk||S.done[pk];
+    h+=`<div class="unit" style="--c1:${LC[u.lvl][0]};--c2:${LC[u.lvl][1]}">${u.lvl} · Unidade ${ui+1}<br><span style="font-weight:600">${u.title}</span></div>`;
+    if(!open) h+=`<button class="btn alt" onclick="startTest(${ui},1)">⏭️ Já sei: pular com teste</button>`;
+    u.lessons.forEach((l,li)=>{
+      const k=`${S.lang}-${ui}-${li}`, un=open&&(li===0||S.done[`${S.lang}-${ui}-${li-1}`]), dn=S.done[k], ic=un&&!dn&&cu; if(ic)cu=false;
+      h+=`<div class="nd" style="transform:translateX(${[0,38,58,38][li%4]}px)"><button class="${dn?'dn':''} ${ic?'cur':''}" ${un?'':'disabled'} onclick="openLesson(${ui},${li})">${dn?'✓':un?'★':'🔒'}</button></div><div class="lbl">${l.title}</div>`;
+    });
+    const lo=S.done[`${S.lang}-${ui}-${u.lessons.length-1}`], td=S.done[`${S.lang}-${ui}-t`];
+    h+=`<div class="nd"><button class="${td?'dn':''} ${lo&&!td?'cur':''}" ${lo?'':'disabled'} onclick="startTest(${ui},0)">${td?'✓':lo?'🏁':'🔒'}</button></div><div class="lbl">Teste da unidade</div>`;
+  });
+  const have=new Set(c.units.map(u=>u.lvl)), o=OUTLINE[S.lang];
+  h+=`<div class="card" style="margin-top:26px"><b>Próximos níveis (em construção)</b>`+LV.filter(l=>!have.has(l)).map(l=>`<p><b>${l}</b> · ${o[l].join(' · ')}</p>`).join('')+`</div>`;
+  app.innerHTML=h;
+}
+
+/* ---------- lição, testes e teste de nível ---------- */
+function openLesson(ui,li){
+  refill();
+  if(S.hearts<=0){ app.innerHTML=`<div class="card"><div class="big">Sem vidas 💔</div><p class="pt">Uma vida volta a cada 15 minutos. Enquanto isso, use a Revisão ou faça o teste de nível, que não gasta vidas.</p><button class="btn" onclick="render()">Voltar</button></div>`; return; }
+  const l=COURSE[S.lang].units[ui].lessons[li];
+  run={kind:'lesson',key:`${S.lang}-${ui}-${li}`,items:[{t:'intro',l},...mk(l)],i:0,err:0}; step();
+}
+function startTest(ui,skip){
+  const all=COURSE[S.lang].units.slice(skip?0:ui,ui+1).flatMap(u=>u.lessons.flatMap(l=>mk(l).filter(x=>x.t!=='shadow')));
+  run={kind:'test',skip,ui,items:shuffle(all).slice(0,8),i:0,err:0}; step();
+}
+function startPlacement(){ run={kind:'place',hits:{},items:PLACE[S.lang],i:0,err:0}; step(); }
+
+function step(){
+  const it=cur(); if(!it) return fin();
+  const pc=Math.round(run.i/run.items.length*100); let b='';
+  if(it.t==='intro'){
+    b=`<div class="big">${it.l.title}</div><div class="tip">💡 ${it.l.tip}</div>`+it.l.w.map((x,i)=>`<div class="w"><div><b>${x[0]}</b><div class="pt">${x[1]}</div></div><button class="btn alt" style="width:auto;margin:0;padding:8px 14px" onclick="speak('${x[0].replace(/'/g,"\\'")}')">🔊</button></div>`).join('')+`<button class="btn" onclick="run.i++;step()">Começar</button>`;
+  } else if(it.t==='choice'){
+    b=`<div class="big">${it.q}</div>${it.say?`<button class="btn alt" onclick="speak(cur().say)">🔊 Ouvir de novo</button>`:''}`+it.o.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('');
+  } else if(it.t==='type'){
+    b=`<div class="big">${it.q}</div><input type="text" id="inp" autocomplete="off" autocapitalize="none" onkeydown="if(event.key==='Enter')chk()"><button class="btn" onclick="chk()">Verificar</button>`;
+  } else if(it.t==='order'){
+    it.tk=it.tk||shuffle(it.a.split(' ')); it.sel=[];
+    b=`<div class="big">${it.q}</div><div class="chips" id="ans"></div><div class="chips" id="bank" style="border:0"></div><button class="btn" onclick="chkO()">Verificar</button>`;
+  } else if(it.t==='shadow'){
+    b=`<div class="pt">Ouça e repita em voz alta (shadowing)</div><div class="big">${it.a}</div><div class="pt">${it.pt}</div><button class="btn alt" onclick="speak(cur().say)">🔊 Ouvir</button><button class="btn" onclick="run.i++;step()">Repeti, continuar</button>`;
+  }
+  app.innerHTML=`<div class="top"><button class="x" onclick="if(confirm('Sair da lição?')){run=null;render()}">✕</button><div class="bar"><i style="width:${pc}%"></i></div></div><div class="card">${b}</div><div id="sheet"></div>`;
+  if(it.t==='order') ordUI();
+  if(it.t==='type') setTimeout(()=>$('inp').focus(),60);
+  if(it.say) speak(it.say);
+}
+function pick(k){
+  const it=cur(); const ok=it.o[k]===it.a;
+  document.querySelectorAll('.opt').forEach((b,i)=>{ b.disabled=true; if(it.o[i]===it.a)b.classList.add('ok'); else if(i===k)b.classList.add('bad'); });
+  verdict(ok,it.a);
+}
+function chk(){ const it=cur(); verdict(norm($('inp').value)===norm(it.a),it.a); }
+function ordUI(){
+  const it=cur();
+  $('ans').innerHTML=it.sel.map(i=>`<span class="chip" onclick="cur().sel=cur().sel.filter(x=>x!==${i});ordUI()">${it.tk[i]}</span>`).join('');
+  $('bank').innerHTML=it.tk.map((t,i)=>it.sel.includes(i)?'':`<span class="chip" onclick="cur().sel.push(${i});ordUI()">${t}</span>`).join('');
+}
+function chkO(){ const it=cur(); verdict(norm(it.sel.map(i=>it.tk[i]).join(' '))===norm(it.a),it.a); }
+function verdict(ok,ans){
+  const it=cur();
+  if(run.kind==='place'){ run.hits[it.lvl]=(run.hits[it.lvl]||0)+(ok?1:0); }
+  else if(!ok){ run.err++; S.errors=[...S.errors,{lang:S.lang,q:it.q,a:it.a}].slice(-60); if(run.kind==='lesson'){ if(S.hearts===5)S.hAt=Date.now(); S.hearts=Math.max(0,S.hearts-1); } }
+  else if(run.kind==='lesson') S.xp+=5;
+  save();
+  $('sheet').className='sheet '+(ok?'ok':'bad');
+  $('sheet').innerHTML=`<b>${ok?'Muito bem! 🎉':'Resposta correta:'}</b><div style="margin-top:4px">${ok?'':ans}</div><button class="btn ${ok?'':'red'}" onclick="nxt()">Continuar</button>`;
+}
+function nxt(){
+  if(run.kind==='lesson'&&S.hearts<=0){ run=null; app.innerHTML=`<div class="card"><div class="big">Acabaram as vidas 💔</div><p class="pt">Volte em alguns minutos: uma vida é devolvida a cada 15 minutos.</p><button class="btn" onclick="render()">Voltar à trilha</button></div>`; return; }
+  run.i++; step();
+}
+function markUnit(ui){ COURSE[S.lang].units[ui].lessons.forEach((l,li)=>S.done[`${S.lang}-${ui}-${li}`]=1); S.done[`${S.lang}-${ui}-t`]=1; }
+function fin(){
+  let msg,win=true;
+  if(run.kind==='place'){
+    let p=-1; for(let k=0;k<LV.length;k++){ if((run.hits[LV[k]]||0)>=2)p=k; else break; }
+    COURSE[S.lang].units.forEach((u,ui)=>{ if(LV.indexOf(u.lvl)<=p) markUnit(ui); });
+    msg=p<0?'Você começa do início (A1).':`Nível estimado: <b>${LV[p]}</b>. As unidades disponíveis até esse nível foram liberadas.`;
+  } else if(run.kind==='test'){
+    win=run.err<=1;
+    if(win){ if(run.skip){ for(let k=0;k<=run.ui;k++)markUnit(k); } else S.done[`${S.lang}-${run.ui}-t`]=1; S.xp+=30; }
+    msg=win?'Você passou no teste! A próxima unidade foi liberada. +30 XP':`Você errou ${run.err}. Refaça as lições da unidade e tente de novo.`;
+  } else { S.done[run.key]=1; S.xp+=20; msg=`Lição concluída! +20 XP<br><span class="pt">Erros: ${run.err}</span>`; }
+  touchStreak(); save(); run=null; if(win)boom();
+  app.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:60px">${win?'🏆':'💪'}</div><div class="big">${win?'Muito bem!':'Quase lá'}</div><p>${msg}</p><button class="btn" onclick="render()">Voltar à trilha</button></div>`;
+}
+
+/* ---------- outras abas ---------- */
+function showAlex(){ app.innerHTML=`<div class="card"><div class="big">💬 Alex</div><div class="tip">A conversa com IA ainda não está ligada: ela precisa de um servidor próprio para proteger a chave de acesso. É o próximo passo do projeto.</div><p class="pt">Por enquanto, treine falando em voz alta as frases dos exercícios de shadowing.</p></div>`; }
+function showReview(){
+  const e=S.errors.filter(x=>x.lang===S.lang).slice(-12).reverse();
+  app.innerHTML=`<div class="card"><div class="big">🔁 Banco de erros</div>`+(e.length?e.map(x=>`<div class="w"><div><div class="pt">${x.q}</div><b>${x.a}</b></div><button class="btn alt" style="width:auto;margin:0;padding:8px 14px" onclick="speak('${x.a.replace(/'/g,"\\'")}')">🔊</button></div>`).join(''):'<p class="pt">Nenhum erro por enquanto. Os erros das lições aparecem aqui.</p>')+`</div>`;
+}
+function showStats(){
+  const c=COURSE[S.lang], tot=c.units.reduce((a,u)=>a+u.lessons.length,0), dn=Object.keys(S.done).filter(k=>k.startsWith(S.lang+'-')&&!k.endsWith('-t')).length;
+  app.innerHTML=`<div class="card"><div class="big">📊 ${c.name}</div><div class="bar"><i style="width:${Math.round(dn/tot*100)}%"></i></div><p><b>${dn}</b> de ${tot} lições · ⭐ ${S.xp} XP · 🔥 ${S.streak} dia(s)</p><button class="btn alt" onclick="if(confirm('Apagar todo o progresso?')){localStorage.removeItem(KEY);location.reload()}">Zerar progresso</button></div>`;
+}
+function render(){
+  run=null; head();
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+  ({trail:showTrail,alex:showAlex,review:showReview,stats:showStats})[tab]();
+}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();});
+$('l-de').onclick=()=>{S.lang='de';save();tab='trail';render();};
+$('l-en').onclick=()=>{S.lang='en';save();tab='trail';render();};
+render();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
